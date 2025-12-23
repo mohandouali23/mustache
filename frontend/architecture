@@ -1,0 +1,38 @@
+// survey-app/
+// │
+// ├── backend/                        # Partie serveur (Node.js + Express)
+// │   ├── data/                       # Stockage des données JSON du sondage
+// │   │   └── survey-667.json         # Exemple de fichier de sondage
+// |   |models/           → définition des modèles Mongoose (schéma de données)
+// |   └─ Response.js
+// │   │
+// │   ├── services/                   # Logique métier / services
+// │   │   └── SurveyService.js        # Service pour gérer les sondages (lecture, écriture, manipulation)
+// │   │
+// │   ├── routes/                     # Définition des routes Express
+// │   │   └── survey.routes.js        # Routes API gestion du questionnaire-
+// │   │
+// │   ├── app.js                       # Configuration d'Express (middlewares, views, static, routes)
+// │   ├── db.js                       #connection mongodb
+// │   └── server.js                    # Point d’entrée du serveur (écoute sur un port)
+// │
+// ├── frontend/                       # Partie client (interface utilisateur)
+// │   ├── views/                       # Templates Mustache pour les pages
+// │   │   ├── layout.mustache          # Template principal (structure HTML de base, head/body)
+// │   │   ├── partials/                # Templates partiels réutilisables
+// │   │   │   └── header.mustache      # Header commun à toutes les pages
+// │   │   │
+// │   │   └── questions/               # Templates pour chaque type de question
+// │   │       ├── text.mustache        # Template pour question texte
+// │   │       ├── single_choice.mustache  # Template pour question à choix unique
+// │   │       ├── multiple_choice.mustache # Template pour question à choix multiples
+// │   │
+// │   └── public/                      # Fichiers statiques accessibles côté client
+// │       ├── css/
+// │       │   └── app.css              # Styles globaux de l’application
+// │       └── js/
+// │           └── app.js               # Logique frontend (interactions, gestion des réponses, console.log)
+// │
+// ├── package.json                     # Dépendances npm et scripts
+// ├─ .env              → configuration (MongoDB URI, port) 
+// └── README.md                        # Documentation du projet

@@ -1,0 +1,15 @@
+<h2>{{step.title}}</h2>
+<p>{{step.label}}</p>
+
+<form method="POST" action="/api/responses/{{survey.id}}/{{step.id}}">
+<input type="hidden" name="responseId" value="{{responseId}}">
+  {{#step.options}}
+    <label>
+      <input type="radio" name="value" value="{{codeItem}}" required>
+      {{label}}
+    </label><br>
+  {{/step.options}}
+
+  <button type="submit">Suivant</button>
+  
+</form>

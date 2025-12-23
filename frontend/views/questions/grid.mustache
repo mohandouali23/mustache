@@ -1,0 +1,31 @@
+<h2>{{step.title}}</h2>
+<p>{{step.label}}</p>
+
+<form method="POST" action="/api/responses/{{survey.id}}/{{step.id}}">
+<input type="hidden" name="responseId" value="{{responseId}}">
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th></th>
+        {{#step.columns}}
+          <th>{{label}}</th>
+        {{/step.columns}}
+      </tr>
+    </thead>
+    <tbody>
+      {{#step.rows}}
+        <tr>
+          <td>{{label}}</td>
+          {{#../step.columns}}
+            <td>
+              <input type="checkbox" name="value[{{../id}}][]" value="{{value}}">
+            </td>
+          {{/../step.columns}}
+        </tr>
+      {{/step.rows}}
+    </tbody>
+  </table>
+
+  <button type="submit">Suivant</button>
+  
+</form>

@@ -94,8 +94,13 @@ if (step.type === 'single_choice') {
   }
 
   // Redirection vers la prochaine question
-  const next = SurveyService.getNextStep(step);
-  //if (!next) return res.send('<h2>Merci pour votre participation</h2>');
+  //const next = SurveyService.getNextStep(step);
+  const next = SurveyService.getNextStep(
+  survey,
+  step,
+  answer.value
+);
+
   if (!next) {
   // Redirection vers la page finale
   return res.redirect(`/survey/${surveyId}/end`);

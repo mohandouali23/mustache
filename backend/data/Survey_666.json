@@ -13,7 +13,7 @@
       "label": "Quel est votre moyen de transport principal ?",
       "placeholder": "Ex : Bus, Train, Voiture...",
       "help_text": "Indiquez le moyen que vous utilisez le plus souvent",
-      "redirection": "q20",
+      "redirection": "q5",
       "input_cond": "",
       "output_cond": "value.length > 0",
       "required": true,
@@ -26,14 +26,12 @@
       "type": "single_choice",
       "label": "Fréquence d’utilisation du transport en commun",
       "page": 2,
+      "input_cond": "",
+      "output_cond": "value.length > 0",
       "options": [
         {
           "codeItem": 1,
-          "label": "Tous les jours",
-          "requiresSubQst": {
-            "value": true,
-            "subQst_id": "q7"
-          }
+          "label": "Tous les jours"
         },
         {
           "codeItem": 2,
@@ -159,7 +157,7 @@
       ],
       "required": true,
       "output_cond": "value.length > 0",
-      "redirection": "q5",
+      "redirection": "q4",
       "isSubQuestion": false
     },
     {
@@ -191,9 +189,18 @@
       "options": ["Sud", "Est", "Ouest", "Centre"],
       "placeholder": "Sélectionnez une option",
       "required": true,
-      "redirection": "q4",
-      "isSubQuestion": false
-    },
+      "redirection": "q2",
+      "isSubQuestion": false,
+       "navigation": {
+    "rules": [
+      {
+        "if": { "operator": "IN", "values": ["Sud", "Ouest"] },
+        "then": { "goTo": "q3" }
+      }
+    ],
+    "default": "redirection"
+  }
+},
     {
       "id": "q14",
       "title": "Q14.",

@@ -1,0 +1,97 @@
+La question ne décide rien
+Un moteur de règles lit le JSON et décide de la prochaine étape
+********Donc :
+           Le JSON décrit QUAND et OÙ rediriger
+           Le moteur JS exécute les règles de façon générique
+
+*Chaque question peut avoir une liste de règles, évaluées dans l’ordre
+"navigation": {
+  "rules": [],
+  "default": "NEXT"
+}
+*Structure d’une règle
+{
+  "if": {
+    "operator": "",
+    "value": "",
+    "values": []
+  },
+  "then": {
+    "goTo": ""
+  }
+}
+*Opérateurs
+| Opérateur    | Usage          |
+| ------------ | -------------- |
+| `EQUALS`     | value === X    |
+| `NOT_EQUALS` | value !== X    |
+| `IN`         | value ∈ []     |
+| `NOT_IN`     | value ∉ []     |
+| `LT`         | <              |
+| `LTE`        | ≤              |
+| `GT`         | >              |
+| `GTE`        | ≥              |
+| `BETWEEN`    | entre          |
+| `FILLED`     | champ non vide |
+| `EMPTY`      | champ vide     |
+
+*exemples
+1.Question âge:
+  Règles ( âge < 18 → q3 , 19 à 30 → q6 , ≥ 31 → FIN )
+  {
+  "id": "q_age",
+  "type": "number",
+  "label": "Quel est votre âge ?",
+
+  "navigation": {
+    "rules": [
+      {
+        "if": { "operator": "LT", "value": 18 },
+        "then": { "goTo": "q3" }
+      },
+      {
+        "if": { "operator": "BETWEEN", "values": [19, 30] },
+        "then": { "goTo": "q6" }
+      },
+      {
+        "if": { "operator": "GTE", "value": 31 },
+        "then": { "goTo": "END" }
+      }
+    ],
+    "default": "NEXT"
+  }
+}
+
+2. Spinner (choix spécifique → redirection)
+{
+  "id": "q_spinner",
+  "type": "spinner",
+  "label": "Choisissez une option",
+
+  "navigation": {
+    "rules": [
+      {
+        "if": { "operator": "IN", "values": [3, 5] },
+        "then": { "goTo": "q2" }
+      }
+    ],
+    "default": "NEXT"
+  }
+}
+ 3. Autocomplete (communes):
+  Règles ( Commune1 OU Commune2 → q3, Sinon → q5)
+  {
+  "id": "q_commune",
+  "type": "autocomplete",
+  "label": "Sélectionnez votre commune",
+
+  "navigation": {
+    "rules": [
+      {
+        "if": { "operator": "IN", "values": ["COMMUNE1", "COMMUNE2"] },
+        "then": { "goTo": "q3" }
+      }
+    ],
+    "default": "q5"
+  }
+}

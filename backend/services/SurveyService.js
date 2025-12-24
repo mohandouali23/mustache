@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-
+import NavigationRuleService from './NavigationRuleService.js';
 export default class SurveyService {
 
   static loadSurvey(surveyId) {
@@ -12,11 +12,20 @@ export default class SurveyService {
     return survey.steps.find(s => s.id === stepId);
   }
 
-  static getNextStep(step) {
-    if (step.redirection === 'FIN') return null;
-    return step.redirection;
-  }
+  // static getNextStep(step) {
+  //   if (step.redirection === 'FIN') return null;
+  //   return step.redirection;
+  // }
+static getNextStep(survey, step, answerValue) {
+  const next = NavigationRuleService.resolve(
+    step,
+    answerValue,
+    survey.steps
+  );
 
+  if (next === 'FIN') return null;
+  return next;
+}
   // Charger dynamiquement une table JSON
   static loadTable(tableName) {
     try {

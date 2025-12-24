@@ -46,10 +46,16 @@ export default class ResponseNormalizer {
             value = step.options
               .filter(o => filteredCodes.includes(String(o.codeItem)))
               .map(o => {
-                if (o.requiresPrecision) {
-                  return {  codeItem: o.codeItem, label: o.label , precision: precisionValue[o.codeItem] || '' };
-                }
-                return { codeItem: o.codeItem, label: o.label };
+                let v = { codeItem: o.codeItem, label: o.label };
+
+                if (o.requiresPrecision)   v.precision =precisionValue[o.codeItem] || '' ;
+                // Sous-question
+            if(o.requiresSubQst) {
+              const subRaw = rawValue[`sub_${o.codeItem}`] || null;
+              v.subAnswer = ResponseNormalizer.normalize(o.requiresSubQst, subRaw, precisionValue);
+            }
+                
+                return v;
               });
             break;
           }
@@ -60,19 +66,28 @@ export default class ResponseNormalizer {
             value = rawValue || null;
           }
           break;
-  
-        case 'grid':
-          // rawValue = { rowId: [values] }
-          value = Object.entries(rawValue || {}).map(([rowId, vals]) => {
-            const rowObj = {};
-            if (!Array.isArray(vals)) vals = [vals];
-            rowObj[rowId] = vals.map(v => {
-              const col = step.columns.find(c => c.value == v);
-              return { value: v, label: col ? col.label : v };
-            });
-            return rowObj;
-          });
-          break;
+          case 'grid':
+  // rawValue = { rowId: [values] }
+  value = [];
+  for (const [rowId, vals] of Object.entries(rawValue || {})) {
+    const arr = Array.isArray(vals) ? vals : (vals ? [vals] : []);
+    // Trouver le label correspondant au rowId
+    const row = step.rows.find(r => r.id === rowId);
+    const rowLabel = row ? row.label : rowId;
+
+    arr.forEach(v => {
+      const col = step.columns.find(c => String(c.value) === String(v));
+      value.push({
+        rowLabel,         // <-- ici on met le label de la ligne
+        value: v,
+        label: col ? col.label : v
+      });
+    });
+  }
+  break;
+
+
+          
   
         default:
           value = rawValue;

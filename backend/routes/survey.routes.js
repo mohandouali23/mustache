@@ -25,9 +25,24 @@ router.get('/:surveyId/:stepId', async (req, res, next) => {
   if (step.type === 'autocomplete') {
     options = AutoCompleteUtils.getAutocompleteOptions(step);
   }
-
+ // ✅ Injection des colonnes dans chaque ligne (GRID)
+ if (step.type === 'grid' && Array.isArray(step.rows) && Array.isArray(step.columns)) {
+  step.rows = step.rows.map(row => ({
+    ...row,
+    columns: step.columns
+    
+  }));
+  
+}
   res.render(`questions/${step.type}`, { survey, step, options, responseId }, (err, html) => {
-    if (err) return res.status(500).send(err.message);
+    if (err) {
+      console.log("step err",err)
+      return res.status(500).send(err.message);}
+    console.log("step",step)
+
+    console.log("json step",JSON.stringify(step, null, 2));
+
+    
     res.render('layout', { survey, step, content: html });
   });
 });

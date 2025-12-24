@@ -2,30 +2,38 @@
 <p>{{step.label}}</p>
 
 <form method="POST" action="/api/responses/{{survey.id}}/{{step.id}}">
-<input type="hidden" name="responseId" value="{{responseId}}">
-  <table border="1" cellpadding="5" cellspacing="0">
-    <thead>
-      <tr>
-        <th></th>
-        {{#step.columns}}
-          <th>{{label}}</th>
-        {{/step.columns}}
-      </tr>
-    </thead>
-    <tbody>
-      {{#step.rows}}
+  <input type="hidden" name="responseId" value="{{responseId}}">
+
+  <div class="matrix">
+    <table class="matrix-table">
+      <thead>
         <tr>
-          <td>{{label}}</td>
-          {{#../step.columns}}
-            <td>
-              <input type="checkbox" name="value[{{../id}}][]" value="{{value}}">
-            </td>
-          {{/../step.columns}}
+          <th></th>
+          {{#step.columns}}
+            <th>{{label}}</th>
+          {{/step.columns}}
         </tr>
-      {{/step.rows}}
-    </tbody>
-  </table>
+      </thead>
+
+      <tbody>
+        {{#step.rows}}
+          <tr>
+            <th scope="row">{{label}}</th>
+ {{#columns}}
+        <td>
+          <input
+                  type="checkbox"
+                  name="value[{{../id}}][]"   
+                  value="{{value}}"
+                >
+        </td>
+      {{/columns}}
+           
+          </tr>
+        {{/step.rows}}
+      </tbody>
+    </table>
+  </div>
 
   <button type="submit">Suivant</button>
-  
 </form>

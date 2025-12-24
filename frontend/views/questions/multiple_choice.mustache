@@ -9,6 +9,14 @@
       {{label}}
     </label>
     <input type="text" name="precision_{{codeItem}}" class="precision-input" style="display:none;" placeholder="Précisez..." />
+
+    {{#requiresSubQst}}
+  <div class="sub-question" style="display:none;">
+   <input type="text" name="precision_{{codeItem}}" class="precision-input" style="display:none;" placeholder="Précisez..." />
+  </div>
+{{/requiresSubQst}}
+
+
   {{/step.options}}
 
   <button type="submit">Suivant</button>
@@ -21,6 +29,9 @@
     cb.addEventListener('change', function() {
       const input = document.querySelector(`input[name=precision_${this.value}]`);
       input.style.display = this.checked && this.dataset.requiresPrecision==='true' ? 'inline-block' : 'none';
+
+      const subQ = this.closest('form').querySelector(`.sub-question`);
+    if(subQ) subQ.style.display = this.checked ? 'block':'none';
 
       // Gestion exclusif
       if(this.dataset.exclusive==='true' && this.checked){

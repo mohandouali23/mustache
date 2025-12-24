@@ -24,11 +24,11 @@ app.set('views', path.resolve('frontend/views'));
 app.use('/assets', express.static(path.resolve('frontend/public')));
 
 // Middleware pour parser POST
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true })); // pour parser name="value[rowId][]"
 app.use(bodyParser.json());
 
 // Middleware global
-app.use(logger);
+//app.use(logger);
 app.use(noCache);
 
 /* ROUTES */

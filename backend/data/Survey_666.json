@@ -13,7 +13,7 @@
       "label": "Quel est votre moyen de transport principal ?",
       "placeholder": "Ex : Bus, Train, Voiture...",
       "help_text": "Indiquez le moyen que vous utilisez le plus souvent",
-      "redirection": "q2",
+      "redirection": "q20",
       "input_cond": "",
       "output_cond": "value.length > 0",
       "required": true,
@@ -83,7 +83,7 @@
       "title": "Q22.",
       "label": "Quels services utilisez-vous dans votre ville ? (plusieurs réponses possibles)",
       "required": true,
-      "redirection": "q3",
+      "redirection": "q2",
       "page": 3,
       "rows": [
         { "id": "transport", "label": "Transports en commun" },

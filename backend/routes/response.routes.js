@@ -8,11 +8,11 @@ import ResponseService from '../services/ResponseService.js';
 const router = express.Router();
 
 // Middleware pour logger toutes les requêtes
-router.use((req, res, next) => {
-  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
-  console.log('Body:', req.body);
-  next();
-});
+// router.use((req, res, next) => {
+//   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+//   console.log('Body:', req.body);
+//   next();
+// });
 
 
 /* GET : récupérer toutes les réponses d’un questionnaire (par surveyId) */

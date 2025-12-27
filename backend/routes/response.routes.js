@@ -92,6 +92,7 @@ if (step.type === 'single_choice') {
     } else {
       // Document existant → ajouter la réponse
       response = await ResponseService.addAnswer(responseId, answer);
+      console.log('test',response)
     }
     responseId = response._id;
   } catch (err) {

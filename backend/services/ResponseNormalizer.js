@@ -83,41 +83,52 @@ export default class ResponseNormalizer {
             value = rawValue || null;
           }
           break;
-  //         case 'grid':
-  // // rawValue = { rowId: [values] }
-  // value = [];
-  // for (const [rowId, vals] of Object.entries(rawValue || {})) {
-  //   const arr = Array.isArray(vals) ? vals : (vals ? [vals] : []);
-  //   arr.forEach(v => {
-  //     const col = step.columns.find(c => String(c.value) === String(v));
-  //     value.push({
-  //       rowId,
-  //       value: v,
-  //       label: col ? col.label : v
-  //     });
-  //   });
-  // }
-  // break;
+  
+  
+  case 'grid': {
+  value = {};
 
-  case 'grid':
-    value = [];
-    const rowIds = Object.keys(rawValue || {});
-    rowIds.forEach((rowIndex, i) => {
-      const vals = Array.isArray(rawValue[rowIndex]) ? rawValue[rowIndex] : (rawValue[rowIndex] ? [rawValue[rowIndex]] : []);
-      const row = step.rows[i]; // on prend la ligne correspondante par index
-      const rowLabel = row ? row.label : rowIndex;
-  
-      vals.forEach(v => {
-        const col = step.columns.find(c => String(c.value) === String(v));
-        value.push({
-          rowLabel,
+  const rowIds = Object.keys(rawValue || {});
+
+  rowIds.forEach(rowId => {
+    // 1️⃣ retrouver la ligne par ID (IMPORTANT)
+    const row = step.rows.find(r => String(r.id) === String(rowId));
+    if (!row) return;
+
+    // 2️⃣ normaliser les valeurs (toujours un tableau)
+    const vals = Array.isArray(rawValue[rowId])
+      ? rawValue[rowId]
+      : rawValue[rowId]
+        ? [rawValue[rowId]]
+        : [];
+
+    // 3️⃣ initialiser la ligne si absente
+    if (!value[row.id]) {
+      value[row.id] = {
+        label: row.label,
+        id:row.id,
+        answers: []
+      };
+    }
+
+    // 4️⃣ ajouter les colonnes sélectionnées
+    vals.forEach(v => {
+      const col = step.columns.find(c => String(c.value) === String(v));
+      if (!col) return;
+
+      // éviter les doublons
+      if (!value[row.id].answers.some(a => a.value === v)) {
+        value[row.id].answers.push({
           value: v,
-          label: col ? col.label : v
+          label: col.label
         });
-      });
+      }
     });
-    break;    
-  
+  });
+
+  break;
+}
+
         default:
           value = rawValue;
           break;

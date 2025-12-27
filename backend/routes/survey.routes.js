@@ -71,7 +71,7 @@ if (step.type === 'accordion' && Array.isArray(step.sections)) {
       return res.status(500).send(err.message);}
    // console.log("step",step)
 
-    console.log("json step",JSON.stringify(step, null, 2));
+   // console.log("json step",JSON.stringify(step, null, 2));
 
     res.render('layout', { survey, step, content: html });
   });
